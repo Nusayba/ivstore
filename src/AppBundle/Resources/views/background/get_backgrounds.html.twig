@@ -1,0 +1,10 @@
+{% extends "::base.html.twig" %}
+
+{% block title %}AppBundle:Background:getBackgrounds{% endblock %}
+
+{% block body %}
+<h1>Welcome to the Background:getBackgrounds page</h1>
+{% for background in backgrounds %}
+    {{ background.id }} | {{ background.src }} | {{ background.heureDate|date() }}<br/>
+{% endfor %}
+{% endblock %}

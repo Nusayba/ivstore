@@ -1,0 +1,15 @@
+{# empty Twig template #}
+{% if form is defined %}
+    {{ form_start(form) }}
+        {{ form_errors(form) }}
+        
+        {{ form_row(form.src) }}
+        {{ form_row(form.heureDate) }}
+    {{ form_end(form) }}
+{% endif %}
+
+
+
+{% if message is defined %}
+{{ message }}
+{% endif %}

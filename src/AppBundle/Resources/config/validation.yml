@@ -1,0 +1,20 @@
+AppBundle\Entity\Background:
+ 
+    properties:
+        src:
+            - NotBlank: ~
+            - Type: string
+        heureDate:
+            - NotBlank: ~
+            - Type: dateTime
+            
+AppBundle\Entity\ActivePeriodeZone:
+    properties:
+        nom:
+            - NotNull: ~
+        dateDebut:
+            - NotNull: ~
+            - Type: dateTime
+        dateFin:
+            - NotNull: ~
+            - Type: dateTime

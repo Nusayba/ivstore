@@ -1,0 +1,13 @@
+{# empty Twig template #}
+{% for zone in zones %}
+    
+    {{ zone.id }}
+    {{ zone.nom }}
+    {{ zone.couleur }}
+    {{ zone.heureDate|date() }}
+    {{ zone.action }}
+    {{ zone.utilisateur }}
+    {% for point in zone.points %}
+       x={{ point.x }}, y={{point.y }}, position={{ point.position }} 
+    {% endfor %}
+{% endfor %}

@@ -1,0 +1,63 @@
+AppBundle\Entity\Zone:
+    attributes:
+        id:
+            groups: ['zone', 'activePeriodeZone','historiqueZone']
+
+AppBundle\Entity\ActivePeriodeZone:
+    attributes:
+        id:
+            groups: ['zone', 'activePeriodeZone']
+        nom:
+            groups: ['zone', 'activePeriodeZone']
+        dateDebut:
+            groups: ['zone', 'activePeriodeZone']
+        dateFin:
+            groups: ['zone', 'activePeriodeZone']
+        zone:
+            groups: ['activePeriodeZone']
+            
+AppBundle\Entity\HistoriqueZone:
+    attributes:
+        id:
+            groups: ['zone', 'historiqueZone', 'point', 'utilisateur']
+        nom:
+            groups: ['zone', 'historiqueZone', 'point', 'utilisateur']
+        couleur:
+            groups: ['zone', 'historiqueZone', 'point', 'utilisateur']
+        heureDate:
+            groups: ['zone', 'historiqueZone', 'point', 'utilisateur']
+        action:
+            groups: ['zone', 'historiqueZone', 'point', 'utilisateur']
+        points:
+            groups: ['zone', 'historiqueZone', 'utilisateur']
+        utilisateur:
+            groups: ['zone', 'historiqueZone', 'point']
+        zone:
+            groups: ['historiqueZone', 'point', 'utilisateur']
+            
+AppBundle\Entity\Point:
+    attributes:
+        id:
+            groups: ['point', 'historiqueZone']
+        x:
+            groups: ['point', 'historiqueZone']
+        y:
+            groups: ['point', 'historiqueZone']
+        position:
+            groups: ['point', 'historiqueZone']
+        zones:
+            groups: ['point']
+            
+AppBundle\Entity\Utilisateur:
+    attributes:
+        id:
+            groups: ['historiqueZone', 'utilisateur']
+        pseudo:
+            groups: ['historiqueZone', 'utilisateur']
+        motDePasse:
+            groups: ['historiqueZone', 'utilisateur']
+        role:
+            groups: ['historiqueZone', 'utilisateur']
+        actionZones:
+            groups: ['utilisateur']
+        

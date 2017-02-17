@@ -4,4 +4,12 @@
 
 {% block body %}
 <h1>Welcome to the Background:postBackground page</h1>
+
+{% if message is defined %}
+    {{ message }}
+{% endif %} 
+
+{{ form(form) }}
+
+
 {% endblock %}

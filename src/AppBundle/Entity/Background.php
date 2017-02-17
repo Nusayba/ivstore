@@ -93,4 +93,8 @@ class Background
     {
         return $this->heureDate;
     }
+    
+    public function __toString() {
+        return $this->src;
+    }
 }

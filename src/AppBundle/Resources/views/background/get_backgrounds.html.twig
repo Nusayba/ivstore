@@ -4,7 +4,27 @@
 
 {% block body %}
 <h1>Welcome to the Background:getBackgrounds page</h1>
-{% for background in backgrounds %}
-    {{ background.id }} | {{ background.src }} | {{ background.heureDate|date() }}<br/>
-{% endfor %}
+
+{{ form(form) }}
+{{ form(form2, {'method': 'PATCH', 'action': path('patch_background',{id:0} )}) }}
+
+
+<div id="resultat">
+    {% if message is defined %}
+        
+        {{ message }}
+        
+    {% elseif backgrounds is defined %}
+        
+        {% for background in backgrounds %}
+            {{ background.id }} 
+            | {{ background.src }} 
+            | {{ background.heureDate|date() }}
+            |  <a href="{{ path('get_background',{id:background.id}) }}">voir</a>
+           
+            <br/>
+        {% endfor %}
+        
+    {% endif %}
+</div>
 {% endblock %}

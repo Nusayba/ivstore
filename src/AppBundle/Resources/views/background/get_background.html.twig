@@ -4,9 +4,7 @@
 
 {% block body %}
 <h1>Welcome to the Background:getBackground page</h1>
-{{ form(form) }}
 
-{% if background is defined %}
     {{ background.id }} | {{ background.src }} | {{ background.heureDate|date() }}<br/>
-    {% endif %}
+    
 {% endblock %}

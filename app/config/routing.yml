@@ -1,4 +1,16 @@
 app:
     resource: "@AppBundle/Controller/"
     type:     annotation
+    
+post_background:
+    path: /Backgrounds
+    defaults: {_controller: AppBundle:Background:postBackground}
+    
+delete_background:
+    path: /Backgrounds/{id}
+    defaults: {_controller: AppBundle:Background:removeBackground}
+    
+patch_background:
+    path: /Backgrounds/{id}
+    defaults: {_controller: AppBundle:Background:patchBackground}
 

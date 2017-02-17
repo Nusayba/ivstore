@@ -15,15 +15,66 @@ class BackgroundController extends Controller
      * @Route("/backgrounds/", name="get_backgrounds")
      * @Method({"GET"})
      */
-    public function getBackgroundsAction()
+    public function getBackgroundsAction(Request $request)
     {
+        //création du formulaire de recherche
+        
+        $dto = new \AppBundle\DTO\BackgroundDTO();
+        
+        $form=$this->createForm(\AppBundle\Form\RechercheBackgroundType::class, $dto);
+        $form->handleRequest($request);
+        
+        //création du formulaire de modification
+        
+        $dto2 = new \AppBundle\DTO\ModifBackgroundDTO();
+        
+        $form2=$this->createForm(\AppBundle\Form\ModifBackgroundType::class, $dto2);
+        $form2->submit($request->request->all());
+        //$form2->handleRequest($request);
+        
+        //création du formulaire de suppression
+        
+        $dto3 = new \AppBundle\DTO\ModifBackgroundDTO();
+        
+        $form3=$this->createForm(\AppBundle\Form\RemoveBackgroundType::class, $dto3);
+        $form3->handleRequest($request);
+        
+        //Si formulaire recherche submit
+        
+        if( $form->isSubmitted() && $form->isValid() ){
+            
+            $heureDate=$dto->getHeureDate();
+            $backgrounds = $this->get("background_service")->rechercheBackground($heureDate);
+            
+            if (empty($backgrounds)) {
+            return $this->render('AppBundle:Background:get_backgrounds.html.twig', array(
+            "form"=>$form->createView(),'message'=>'Background not found'
+            ));
+            }
+            
+            return $this->render('AppBundle:Background:get_backgrounds.html.twig', array(
+            "form"=>$form->createView(),'backgrounds'=>$backgrounds
+            ));
+            
+        }
+        
+        //Si formulaire modification submit
+        
+        if( $form2->isSubmitted() && $form2->isValid() ){
+            
+            $id=$dto->getId();
+            return $this->forward("patch_background", array('id'=>$id));
+            
+        }
+        
+        //Sinon on affiche tous les backgrounds en base
         $backgrounds = $this->get('doctrine.orm.entity_manager')
                 ->getRepository('AppBundle:Background')
                 ->findAll();
 
-        // Gestion de la réponse
         return $this->render('AppBundle:Background:get_backgrounds.html.twig', 
-                array('backgrounds'=>$backgrounds
+                array('backgrounds'=>$backgrounds,"form"=>$form->createView(),
+                    "form2"=>$form2->createView(), "form3"=>$form3->createView()
         ));
     }
 
@@ -33,61 +84,94 @@ class BackgroundController extends Controller
      */
     public function getBackgroundAction(Request $request)
     {
-        $dto = new \AppBundle\DTO\BackgroundDTO();
         
-        $form=$this->createForm(\AppBundle\Form\RechercheBackgroundType::class, $dto);
+        $background = $this->get('doctrine.orm.entity_manager')
+                ->getRepository('AppBundle:Background')
+                ->find($request->get('id')); 
+        
+        return $this->render('AppBundle:Background:get_background.html.twig', 
+                array('background'=>$background
+        ));
+    }
+
+    /**
+     * @Route("/backgrounds", name="post_background")
+     * @Method({"POST"})
+     */
+    public function postBackgroundAction(Request $request)
+    {
+        $background = new Background();
+        $form = $this->createForm(\AppBundle\Form\BackgroundType::class, $background);
+
         $form->handleRequest($request);
         
-        if( $form->isSubmitted() && $form->isValid() ){
-            $heureDate=$dto->getHeureDate();
-            //$background= new Background;
-            $background = $this->get("background_service")->rechercheBackground($heureDate);
+        if ($form->isSubmitted() && $form->isValid()) {
             
-            return $this->render('AppBundle:Background:get_background.html.twig', array(
-            "form"=>$form->createView(),'background'=>$background[0]
+            $em = $this->get('doctrine.orm.entity_manager');
+            $em->persist($background);
+            $em->flush();
+            
+            return $this->render('AppBundle:Background:post_background.html.twig', array(
+                'form'=>$form->createView(), 'message'=>"background ajouté"
             ));
             
+        } else {
+            
+            return $this->render('AppBundle:Background:post_background.html.twig', array(
+                'form'=>$form->createView()
+            ));
         }
         
+    }
+
+    /**
+     * @Route("/Backgrounds/{id}", name="patch_background")
+     * @Method({"PATCH"})
+     */
+    public function patchBackgroundAction(Request $request)
+    {
+        $background = $this->get('doctrine.orm.entity_manager')
+                ->getRepository('AppBundle:Background')
+                ->find($request->get('id')); 
+        
+        $form = $this->createForm(\AppBundle\Form\BackgroundType::class,$background);
+        
+        if ($request->isMethod('POST')) {
+            
+            $form->submit($request->request->get($form->getName()), false);
+           
+            if ($form->isSubmitted() && $form->isValid()) {
+                $em = $this->get('doctrine.orm.entity_manager');
+                $em->persist($background);
+                $em->flush();
                 
-       
-        //if (empty($background)) {
-         //   return \FOS\RestBundle\View\View::create(['message' => 'Place not found'], Response::HTTP_NOT_FOUND);
-       // }
-
-        return $this->render('AppBundle:Background:get_background.html.twig', array(
-            "form"=>$form->createView()
-        ));
-    }
-
-    /**
-     * @Route("/postBackground")
-     */
-    public function postBackgroundAction()
-    {
-        return $this->render('AppBundle:Background:post_background.html.twig', array(
-            // ...
-        ));
-    }
-
-    /**
-     * @Route("/patchBackground")
-     */
-    public function patchBackgroundAction()
-    {
+                return $this->render('AppBundle:Background:patch_background.html.twig', array(
+                    "form"=>$form, "message"=>"Background modifié"
+                ));
+            }
+        }
+        
         return $this->render('AppBundle:Background:patch_background.html.twig', array(
-            // ...
+            "form"=>$form
         ));
     }
 
     /**
-     * @Route("/removeBackground")
+     * @Route("/backgrounds/{id}", name="delete_background")
+     * @Method({"DELETE"})
      */
-    public function removeBackgroundAction()
+    public function removeBackgroundAction(Request $request)
     {
-        return $this->render('AppBundle:Background:remove_background.html.twig', array(
-            // ...
-        ));
+        $em = $this->get('doctrine.orm.entity_manager');
+        $background = $em->getRepository('AppBundle:Background')
+                    ->find($request->get('id'));
+        
+        if ($background) {
+            $em->remove($background);
+            $em->flush();
+        }
+        return $this->redirectToRoute('get_backgrounds',array('message'=>'Background supprimer'));
+        
     }
 
 }

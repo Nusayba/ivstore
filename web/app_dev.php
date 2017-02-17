@@ -24,6 +24,7 @@ Debug::enable();
 
 $kernel = new AppKernel('dev', true);
 $kernel->loadClassCache();
+Request::enableHttpMethodParameterOverride();// AJOUTE PAR TOM ALERTE
 $request = Request::createFromGlobals();
 $response = $kernel->handle($request);
 $response->send();

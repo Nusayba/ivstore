@@ -126,7 +126,7 @@ class BackgroundController extends Controller
 
     /**
      * @Route("/Backgrounds/{id}", name="patch_background")
-     * @Method({"PATCH"})
+     * @Method("PATCH")
      */
     public function patchBackgroundAction(Request $request)
     {

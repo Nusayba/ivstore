@@ -95,6 +95,6 @@ class Background
     }
     
     public function __toString() {
-        return $this->src;
+        return strval ($this->id);
     }
 }

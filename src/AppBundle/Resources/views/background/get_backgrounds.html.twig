@@ -6,7 +6,11 @@
 <h1>Welcome to the Background:getBackgrounds page</h1>
 
 {{ form(form) }}
-{{ form(form2) }}
+
+
+   
+
+    
 
 
 <div id="resultat">
@@ -17,13 +21,18 @@
     {% elseif backgrounds is defined %}
         
         {% for background in backgrounds %}
-            {{ background.id }} 
+            {{ form_start(tabForm[loop.index-1]) }}
+                {{ form_rest(form) }}
+            {{ form_end(tabForm[loop.index-1]) }}
+            {{ background.id }}
             | {{ background.src }} 
             | {{ background.heureDate|date() }}
             |  <a href="{{ path('get_background',{id:background.id}) }}">voir</a>
+            
            
             <br/>
         {% endfor %}
+        
         
     {% endif %}
 </div>

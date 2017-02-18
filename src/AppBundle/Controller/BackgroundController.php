@@ -51,7 +51,7 @@ class BackgroundController extends Controller
             "form"=>$form->createView(),'message'=>'Background not found'
             ));
             }
-            
+            //ici
             return $this->render('AppBundle:Background:get_backgrounds.html.twig', array(
             "form"=>$form->createView(),'backgrounds'=>$backgrounds
             ));
@@ -71,10 +71,20 @@ class BackgroundController extends Controller
         $backgrounds = $this->get('doctrine.orm.entity_manager')
                 ->getRepository('AppBundle:Background')
                 ->findAll();
-
+        $dto2 = new \AppBundle\DTO\ModifBackgroundDTO();
+        foreach ($backgrounds as $key => $value) {
+        
+        $id=$value->getId();
+        $tabForm[$key]=$this->createForm(\AppBundle\Form\ModifBackgroundType::class, $dto2, array('action'=>$id))
+                            ->submit($request->request->all())
+                            ->createView();
+        
+        }
+        //ici
         return $this->render('AppBundle:Background:get_backgrounds.html.twig', 
                 array('backgrounds'=>$backgrounds,"form"=>$form->createView(),
-                    "form2"=>$form2->createView(), "form3"=>$form3->createView()
+                    "form2"=>$form2->createView(), "form3"=>$form3->createView(),
+                    "tabForm"=>$tabForm
         ));
     }
 
@@ -125,10 +135,10 @@ class BackgroundController extends Controller
     }
 
     /**
-     * @Route("/Backgrounds/{id}", name="patch_background")
+     * @Route("/backgrounds/{id}", name="patch_backgrounds")
      * @Method("PATCH")
      */
-    public function patchBackgroundAction(Request $request)
+    public function patchBackgroundsAction(Request $request)
     {
         $background = $this->get('doctrine.orm.entity_manager')
                 ->getRepository('AppBundle:Background')
@@ -146,13 +156,13 @@ class BackgroundController extends Controller
                 $em->flush();
                 
                 return $this->render('AppBundle:Background:patch_background.html.twig', array(
-                    "form"=>$form, "message"=>"Background modifié"
+                    "form"=>$form->createView(), "message"=>"Background modifié"
                 ));
             }
         }
         
         return $this->render('AppBundle:Background:patch_background.html.twig', array(
-            "form"=>$form
+            "form"=>$form->createView()
         ));
     }
 

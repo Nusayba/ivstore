@@ -22,17 +22,10 @@ class ModifBackgroundType extends AbstractType{
     
     public function buildForm(\Symfony\Component\Form\FormBuilderInterface $builder, array $options) {
         $builder->setMethod('PATCH')
-                ->setAction('1')
-                ->add('id', \Symfony\Bridge\Doctrine\Form\Type\EntityType::class, array('class'=>'AppBundle:Background'))
-                ->add('submit', \Symfony\Component\Form\Extension\Core\Type\SubmitType::class)
+                ->add('modifier', \Symfony\Component\Form\Extension\Core\Type\SubmitType::class)
                 ;
     }
     
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
-    {
-        $resolver->setDefaults(array(
-            'method' => 'PATCH'
-        ));
-    }
+    
 
 }

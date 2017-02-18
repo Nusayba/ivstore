@@ -4,4 +4,21 @@
 
 {% block body %}
 <h1>Welcome to the Zone:getZones page</h1>
+
+{% for zone in lastHistoriquezones %}
+    {% for test in zone %}
+    
+    {{ test.id }}
+    | {{ test.nom }}
+    | {{ test.couleur }}
+    | {{ test.heureDate|date() }}
+    | {{ test.action }}
+    | {{ test.utilisateur }}
+    | {% for point in test.points %}
+       position={{ point.position }}, x={{ point.x }}, y={{point.y }} | 
+       
+    {% endfor %}
+    <br/>
+    {% endfor %}
+{% endfor %}
 {% endblock %}

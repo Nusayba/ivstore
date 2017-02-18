@@ -4,4 +4,21 @@
 
 {% block body %}
 <h1>Welcome to the Utilisateur:getUtilisateurs page</h1>
+
+<div id="resultat">
+    
+        {% for utilisateur in utilisateurs %}
+            
+            {% if tabForm is defined %}
+                {{ form_start(tabForm[loop.index-1]) }}
+                    {{ form_rest(tabForm[loop.index-1]) }}
+                {{ form_end(tabForm[loop.index-1]) }}
+            {% endif %}
+            
+            {{ utilisateur.id }}
+            | {{ utilisateur.pseudo }} 
+            | {{ utilisateur.role }}
+            <br/>
+        {% endfor %}
+</div>
 {% endblock %}

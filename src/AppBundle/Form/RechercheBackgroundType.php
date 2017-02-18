@@ -16,7 +16,7 @@ class RechercheBackgroundType extends AbstractType{
         
         $builder->setMethod('GET')
                 ->add('heureDate', \Symfony\Component\Form\Extension\Core\Type\DateTimeType::class)
-                ->add('submit', \Symfony\Component\Form\Extension\Core\Type\SubmitType::class);
+                ->add('Rechercher', \Symfony\Component\Form\Extension\Core\Type\SubmitType::class);
     }
 
 }

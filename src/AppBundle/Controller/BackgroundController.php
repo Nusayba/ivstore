@@ -18,52 +18,40 @@ class BackgroundController extends Controller
     public function getBackgroundsAction(Request $request)
     {
         //création du formulaire de recherche
-        
         $dto = new \AppBundle\DTO\BackgroundDTO();
         
         $form=$this->createForm(\AppBundle\Form\RechercheBackgroundType::class, $dto);
         $form->handleRequest($request);
         
-        //création du formulaire de modification
-        
-        $dto2 = new \AppBundle\DTO\ModifBackgroundDTO();
-        
-        $form2=$this->createForm(\AppBundle\Form\ModifBackgroundType::class, $dto2);
-        $form2->submit($request->request->all());
-        //$form2->handleRequest($request);
-        
-        //création du formulaire de suppression
-        
-        $dto3 = new \AppBundle\DTO\ModifBackgroundDTO();
-        
-        $form3=$this->createForm(\AppBundle\Form\RemoveBackgroundType::class, $dto3);
-        $form3->handleRequest($request);
-        
         //Si formulaire recherche submit
-        
         if( $form->isSubmitted() && $form->isValid() ){
             
             $heureDate=$dto->getHeureDate();
             $backgrounds = $this->get("background_service")->rechercheBackground($heureDate);
             
             if (empty($backgrounds)) {
-            return $this->render('AppBundle:Background:get_backgrounds.html.twig', array(
-            "form"=>$form->createView(),'message'=>'Background not found'
-            ));
+                return $this->render('AppBundle:Background:get_backgrounds.html.twig', array(
+                "form"=>$form->createView(),'message'=>'Background not found'
+                ));
             }
-            //ici
+            
+            // création du tableau de formulaire de modification et de suppression
+            $dto2 = new \AppBundle\DTO\ModifBackgroundDTO();
+            $dto3 = new \AppBundle\DTO\ModifBackgroundDTO();
+            foreach ($backgrounds as $key => $value) {
+                $id=$value->getId();
+                $tabForm[$key]=$this->createForm(\AppBundle\Form\ModifBackgroundType::class, $dto2, array('action'=>$id))
+                                    ->submit($request->request->all())
+                                    ->createView();
+                $tabForm2[$key]=$this->createForm(\AppBundle\Form\RemoveBackgroundType::class, $dto3, array('action'=>$id))
+                                    ->submit($request->request->all())
+                                    ->createView();
+            }
+            
             return $this->render('AppBundle:Background:get_backgrounds.html.twig', array(
-            "form"=>$form->createView(),'backgrounds'=>$backgrounds
+            "form"=>$form->createView(),'backgrounds'=>$backgrounds, "tabForm"=>$tabForm,
+                "tabForm2"=>$tabForm2
             ));
-            
-        }
-        
-        //Si formulaire modification submit
-        
-        if( $form2->isSubmitted() && $form2->isValid() ){
-            
-            $id=$dto->getId();
-            return $this->forward("patch_background", array('id'=>$id));
             
         }
         
@@ -71,19 +59,23 @@ class BackgroundController extends Controller
         $backgrounds = $this->get('doctrine.orm.entity_manager')
                 ->getRepository('AppBundle:Background')
                 ->findAll();
+       
+        // création du tableau de formulaire de modification et de suppression
         $dto2 = new \AppBundle\DTO\ModifBackgroundDTO();
+        $dto3 = new \AppBundle\DTO\ModifBackgroundDTO();
         foreach ($backgrounds as $key => $value) {
-        
-        $id=$value->getId();
-        $tabForm[$key]=$this->createForm(\AppBundle\Form\ModifBackgroundType::class, $dto2, array('action'=>$id))
-                            ->submit($request->request->all())
-                            ->createView();
-        
+            $id=$value->getId();
+            $tabForm[$key]=$this->createForm(\AppBundle\Form\ModifBackgroundType::class, $dto2, array('action'=>$id))
+                                ->submit($request->request->all())
+                                ->createView();
+            $tabForm2[$key]=$this->createForm(\AppBundle\Form\RemoveBackgroundType::class, $dto3, array('action'=>$id))
+                                    ->submit($request->request->all())
+                                    ->createView();
         }
-        //ici
+        
         return $this->render('AppBundle:Background:get_backgrounds.html.twig', 
                 array('backgrounds'=>$backgrounds,"form"=>$form->createView(),
-                    "form2"=>$form2->createView(), "form3"=>$form3->createView(),
+                     "tabForm2"=>$tabForm2,
                     "tabForm"=>$tabForm
         ));
     }
@@ -167,10 +159,10 @@ class BackgroundController extends Controller
     }
 
     /**
-     * @Route("/backgrounds/{id}", name="delete_background")
+     * @Route("/backgrounds/{id}", name="delete_backgrounds")
      * @Method({"DELETE"})
      */
-    public function removeBackgroundAction(Request $request)
+    public function removeBackgroundsAction(Request $request)
     {
         $em = $this->get('doctrine.orm.entity_manager');
         $background = $em->getRepository('AppBundle:Background')

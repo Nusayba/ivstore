@@ -4,16 +4,27 @@ namespace AppBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 
 class ZoneController extends Controller
 {
     /**
-     * @Route("/getZones")
+     * @Route("/zones/", name="get_zones")
+     * @Method({"GET"})
      */
     public function getZonesAction()
     {
+        $zones = $this->get('doctrine.orm.entity_manager')
+                ->getRepository('AppBundle:Zone')
+                ->findAll();
+        
+        foreach ($zones as $key => $value) {
+            
+            $zone=$value;
+            $attributZones[]=$this->get("historique_service")->findLastHistorique($zone);
+        }
         return $this->render('AppBundle:Zone:get_zones.html.twig', array(
-            // ...
+            "lastHistoriquezones"=>$attributZones
         ));
     }
 
@@ -28,7 +39,8 @@ class ZoneController extends Controller
     }
 
     /**
-     * @Route("/postZone")
+     * @Route("/zones", name="post_zone")
+     * @Method({"POST"})
      */
     public function postZoneAction()
     {

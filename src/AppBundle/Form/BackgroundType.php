@@ -15,7 +15,7 @@ class BackgroundType extends AbstractType{
     
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->setMethod('PATCH')
+        $builder->setMethod('POST')
                 ->add('src');
         $builder->add('heureDate', \Symfony\Component\Form\Extension\Core\Type\DateTimeType::class)
                 ->add('submit', \Symfony\Component\Form\Extension\Core\Type\SubmitType::class);

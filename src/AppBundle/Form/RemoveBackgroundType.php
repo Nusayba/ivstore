@@ -19,8 +19,8 @@ use Symfony\Component\Form\FormBuilderInterface;
 class RemoveBackgroundType extends AbstractType{
    
     public function buildForm(FormBuilderInterface $builder, array $options) {
-        $builder->add('id', \Symfony\Bridge\Doctrine\Form\Type\EntityType::class, array('class'=>'AppBundle:Background'))
-                ->add('submit', \Symfony\Component\Form\Extension\Core\Type\SubmitType::class)
+        $builder->setMethod('DELETE')
+                ->add('supprimer', \Symfony\Component\Form\Extension\Core\Type\SubmitType::class)
                 ;
     }
 }

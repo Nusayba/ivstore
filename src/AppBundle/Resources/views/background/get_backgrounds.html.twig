@@ -7,12 +7,6 @@
 
 {{ form(form) }}
 
-
-   
-
-    
-
-
 <div id="resultat">
     {% if message is defined %}
         
@@ -21,9 +15,18 @@
     {% elseif backgrounds is defined %}
         
         {% for background in backgrounds %}
-            {{ form_start(tabForm[loop.index-1]) }}
-                {{ form_rest(form) }}
-            {{ form_end(tabForm[loop.index-1]) }}
+            
+            {% if tabForm is defined %}
+                {{ form_start(tabForm[loop.index-1]) }}
+                    {{ form_rest(form) }}
+                {{ form_end(tabForm[loop.index-1]) }}
+            {% endif %}
+            {% if tabForm2 is defined %}
+                {{ form_start(tabForm2[loop.index-1]) }}
+                    {{ form_rest(form) }}
+                {{ form_end(tabForm2[loop.index-1]) }}
+            {% endif %}
+            
             {{ background.id }}
             | {{ background.src }} 
             | {{ background.heureDate|date() }}

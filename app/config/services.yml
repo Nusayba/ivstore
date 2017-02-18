@@ -15,3 +15,7 @@ services:
     background_service:
         class: AppBundle\Service\BackgroundService
         arguments: ["@doctrine.orm.entity_manager"]
+        
+    default_service:
+        class: AppBundle\Service\DefaultService
+        arguments: []

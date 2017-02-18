@@ -13,4 +13,12 @@ delete_background:
 patch_background:
     path: /Backgrounds/{id}
     defaults: {_controller: AppBundle:Background:patchBackground}
+    
+post_utilisateur:
+    path: /Utilisateurs
+    defaults: {_controller: AppBundle:Utilisateur:postUtilisateur}
+    
+delete_utilisateur:
+    path: /Utilisateurs/{id}
+    defaults: {_controller: AppBundle:Utilisateur:removeUtilisateur}
 

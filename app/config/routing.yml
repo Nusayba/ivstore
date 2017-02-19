@@ -21,4 +21,31 @@ post_utilisateur:
 delete_utilisateur:
     path: /Utilisateurs/{id}
     defaults: {_controller: AppBundle:Utilisateur:removeUtilisateur}
+    
+post_zone:
+    path: /Zones
+    defaults: {_controller: AppBundle:Zone:postZone}
 
+post_point:
+    path: /zones/{id}/points
+    defaults: {_controller: AppBundle:Point:postPoint}
+    
+post_active_periode:
+    path: /zones/{id}/activePeriode
+    defaults: {_controller: AppBundle:ActivePeriode:postActivePeriode}
+    
+get_active_periodes:
+    path: /zones/{id}/activePeriodes
+    defaults: {_controller: AppBundle:ActivePeriode:getActivePeriodes}
+    
+patch_point:
+    path: /Zones/{id}/Points/{id2}
+    defaults: {_controller: AppBundle:Point:patchPoint}
+    
+patch_zone:
+    path: /zones/{id}
+    defaults: {_controller: AppBundle:Zone:patchZone}
+    
+delete_point:
+    path: /zones/{id}/points/{id2}
+    defaults: {_controller: AppBundle:Point:removePoint}

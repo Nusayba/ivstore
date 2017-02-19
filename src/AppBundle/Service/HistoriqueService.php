@@ -21,9 +21,6 @@ class HistoriqueService {
     }
 
     public function findLastHistorique($idZone) {
-        //$historique = $this->em
-         //       ->getRepository('AppBundle:HistoriqueZone')
-          //      ->find($idZone);
         
         $queryBuilder = $this->em->createQueryBuilder();
         $queryBuilder->select('h');
@@ -35,4 +32,31 @@ class HistoriqueService {
         $historique = $queryBuilder->getQuery()->getResult();
         return $historique;
     }
+    
+    public function rechercheZones($nom) {
+        $queryBuilder = $this->em->createQueryBuilder();
+        $queryBuilder->select('h');
+        $queryBuilder->from('AppBundle:HistoriqueZone','h');
+        $queryBuilder->where('h.nom LIKE :nom');
+        $queryBuilder->orderBy('h.heureDate', 'DESC');
+        $queryBuilder->setParameter('nom', '%'.$nom.'%');
+        $historiques = $queryBuilder->getQuery()->getResult();
+        
+        $zones[]=$historiques[0];
+        foreach ($historiques as $key => $historique) {
+            $exist=false;
+            foreach ($zones as $key2 => $zone) {
+                if($historique->getZone()->getId()== $zone->getZone()->getId()){
+                    
+                    $zones[$key2]=$historique;
+                    $exist=true;
+                }
+            }
+            if($exist==false){
+                $zones[]=$historique;
+            }
+        }
+        return $zones;
+    }
+    
 }

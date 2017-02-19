@@ -4,4 +4,9 @@
 
 {% block body %}
 <h1>Welcome to the ActivePeriode:postActivePeriode page</h1>
+
+{% if message is defined %}
+    {{ message }}
+{% endif %}
+{{ form(form) }}
 {% endblock %}

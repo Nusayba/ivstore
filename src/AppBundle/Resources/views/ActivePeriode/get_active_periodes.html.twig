@@ -4,4 +4,9 @@
 
 {% block body %}
 <h1>Welcome to the ActivePeriode:getActivePeriodes page</h1>
+
+{% for activePeriode in activePeriodes %}
+    
+  {{ activePeriode.nom }} | {{ activePeriode.dateDebut|date() }} | {{ activePeriode.dateFin|date() }} <br/>
+{% endfor %}
 {% endblock %}

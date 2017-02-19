@@ -7,7 +7,6 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * HistoriqueZone
  *
- * @ORM\Table(name="historique_zone", uniqueConstraints={@ORM\UniqueConstraint(name="historique_zones_name_unique",columns={"nom"})})
  * @ORM\Entity(repositoryClass="AppBundle\Repository\HistoriqueZoneRepository")
  */
 class HistoriqueZone
@@ -228,19 +227,7 @@ class HistoriqueZone
         $this->points = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
-    /**
-     * Add point
-     *
-     * @param \AppBundle\Entity\Point $point
-     *
-     * @return HistoriqueZone
-     */
-    public function addPoint(\AppBundle\Entity\Point $point)
-    {
-        $this->points[] = $point;
-
-        return $this;
-    }
+    
 
     /**
      * Remove point
@@ -260,5 +247,19 @@ class HistoriqueZone
     public function getPoints()
     {
         return $this->points;
+    }
+
+    /**
+     * Add point
+     *
+     * @param \AppBundle\Entity\Point $point
+     *
+     * @return HistoriqueZone
+     */
+    public function addPoint(\AppBundle\Entity\Point $point)
+    {
+        $this->points[] = $point;
+
+        return $this;
     }
 }

@@ -45,7 +45,7 @@ class Point
     
     /**
      * @ORM\ManyToMany(targetEntity="HistoriqueZone", mappedBy="points")
-     * * @ORM\JoinTable(name="point_historique")
+     * @ORM\JoinTable(name="historique_zone_point")
      */
     private $zones;
 
@@ -139,19 +139,7 @@ class Point
         $this->zones = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
-    /**
-     * Add zone
-     *
-     * @param \AppBundle\Entity\HistoriqueZone $zone
-     *
-     * @return Point
-     */
-    public function addZone(\AppBundle\Entity\HistoriqueZone $zone)
-    {
-        $this->zones[] = $zone;
-
-        return $this;
-    }
+    
 
     /**
      * Remove zone
@@ -171,5 +159,19 @@ class Point
     public function getZones()
     {
         return $this->zones;
+    }
+
+    /**
+     * Add zone
+     *
+     * @param \AppBundle\Entity\HistoriqueZone $zone
+     *
+     * @return Point
+     */
+    public function addZone(\AppBundle\Entity\HistoriqueZone $zone)
+    {
+        $this->zones[] = $zone;
+
+        return $this;
     }
 }

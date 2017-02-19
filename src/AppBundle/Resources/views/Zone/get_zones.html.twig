@@ -4,21 +4,65 @@
 
 {% block body %}
 <h1>Welcome to the Zone:getZones page</h1>
+{{ form(form) }}
+    {% if message is defined %}
+        {{ message }}
+    {% endif %}
+    {% for zone in lastHistoriquezones %}
+        {% for z in zone %}
 
-{% for zone in lastHistoriquezones %}
-    {% for test in zone %}
-    
-    {{ test.id }}
-    | {{ test.nom }}
-    | {{ test.couleur }}
-    | {{ test.heureDate|date() }}
-    | {{ test.action }}
-    | {{ test.utilisateur }}
-    | {% for point in test.points %}
-       position={{ point.position }}, x={{ point.x }}, y={{point.y }} | 
-       
+            {{ z.zone }}
+             {{ z.nom }}
+            | {{ z.couleur }}
+            | {{ z.heureDate|date() }}
+            | {{ z.action }}
+            | {{ z.utilisateur }}
+            <br/>
+            {% set xy=0 %}
+            | {% for point in z.points %}
+            
+                position={{ point.position }}, x={{ point.x }}, y={{point.y }} |
+                {% if tabForm2 is defined %}
+                    {{ form_start(tabForm2[xy]) }}
+                    {{ form_rest(tabForm2[xy]) }}
+                {{ form_end(tabForm2[xy]) }}
+                {% endif %}
+                
+                
+                {{ form_start(tabForm3[xy]) }}
+                    {{ form_rest(tabForm3[xy]) }}
+                {{ form_end(tabForm3[xy]) }}
+                {% set xy=xy+1 %} 
+            {% endfor %}
+            
+            | {% if tabForm is defined %}
+                        {{ form_start(tabForm[loop.parent.loop.index-1]) }}
+                            {{ form_rest(tabForm[loop.parent.loop.index-1]) }}
+                        {{ form_end(tabForm[loop.parent.loop.index-1]) }}
+            {% endif %}
+                {% if tabForm4 is defined %}
+                        {{ form_start(tabForm4[loop.parent.loop.index-1]) }}
+                            {{ form_rest(tabForm4[loop.parent.loop.index-1]) }}
+                        {{ form_end(tabForm4[loop.parent.loop.index-1]) }}
+            {% endif %}
+            {% if tabForm5 is defined %}
+                        {{ form_start(tabForm5[loop.parent.loop.index-1]) }}
+                            {{ form_rest(tabForm5[loop.parent.loop.index-1]) }}
+                        {{ form_end(tabForm5[loop.parent.loop.index-1]) }}
+            {% endif %}
+            
+            {% if tabForm6 is defined %}
+                        {{ form_start(tabForm6[loop.parent.loop.index-1]) }}
+                            {{ form_rest(tabForm6[loop.parent.loop.index-1]) }}
+                        {{ form_end(tabForm6[loop.parent.loop.index-1]) }}
+            {% endif %}
+            
+            {% if tabForm7 is defined %}
+                        {{ form_start(tabForm7[loop.parent.loop.index-1]) }}
+                            {{ form_rest(tabForm7[loop.parent.loop.index-1]) }}
+                        {{ form_end(tabForm7[loop.parent.loop.index-1]) }}
+            {% endif %}
+            <br/>
+        {% endfor %}
     {% endfor %}
-    <br/>
-    {% endfor %}
-{% endfor %}
 {% endblock %}

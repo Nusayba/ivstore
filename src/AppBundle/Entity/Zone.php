@@ -118,6 +118,6 @@ class Zone
     }
     
     public function __toString() {
-        return "nom zone";
+        return strval($this->id);
     }
 }

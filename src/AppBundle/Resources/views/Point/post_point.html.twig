@@ -1,11 +1,13 @@
 {% extends "::base.html.twig" %}
 
-{% block title %}AppBundle:Zone:postZone{% endblock %}
+{% block title %}AppBundle:Point:postPoint{% endblock %}
 
 {% block body %}
-<h1>Welcome to the Zone:postZone page</h1>
+<h1>Welcome to the Point:postPoint page</h1>
+
 {% if message is defined %}
     {{ message }}
-{% endif %}
+{% endif %} 
+
 {{ form(form) }}
 {% endblock %}

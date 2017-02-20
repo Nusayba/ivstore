@@ -47,7 +47,7 @@ class PointController extends Controller
                 $hZone->setCouleur($dernierHistorique->getCouleur());
                 $hZone->setHeureDate(new \DateTime());
                 $hZone->setNom($dernierHistorique->getNom());
-                $hZone->setUtilisateur($ddto->getUtilisateur());
+                $hZone->setUtilisateur($dto->getUtilisateur());
                 
                 //ajout des points
                 $points=$dernierHistorique->getPoints();

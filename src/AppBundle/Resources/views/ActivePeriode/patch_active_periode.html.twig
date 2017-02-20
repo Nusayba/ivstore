@@ -3,5 +3,13 @@
 {% block title %}AppBundle:ActivePeriode:pushActivePeriode{% endblock %}
 
 {% block body %}
-<h1>Welcome to the ActivePeriode:pushActivePeriode page</h1>
+<h1>Welcome to the ActivePeriode:patchActivePeriode page</h1>
+
+{% if message is defined %}
+        {{ message }}
+    {% endif %}
+
+    {{ form_start(form) }}
+                    {{ form_rest(form) }}
+                {{ form_end(form) }}
 {% endblock %}

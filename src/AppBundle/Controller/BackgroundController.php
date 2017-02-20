@@ -138,7 +138,7 @@ class BackgroundController extends Controller
         
         $form = $this->createForm(\AppBundle\Form\BackgroundType::class,$background);
         
-        if ($request->isMethod('POST')) {
+        if ($request->isMethod('PATCH')) {
             
             $form->submit($request->request->get($form->getName()), false);
            

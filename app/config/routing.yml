@@ -30,12 +30,12 @@ post_point:
     path: /zones/{id}/points
     defaults: {_controller: AppBundle:Point:postPoint}
     
-post_active_periode:
-    path: /zones/{id}/activePeriode
+post_active_periodes:
+    path: /zones/{id}/activePeriodes
     defaults: {_controller: AppBundle:ActivePeriode:postActivePeriode}
     
 get_active_periodes:
-    path: /zones/{id}/activePeriodes
+    path: /Zones/{id}/activePeriodes
     defaults: {_controller: AppBundle:ActivePeriode:getActivePeriodes}
     
 patch_point:
@@ -49,3 +49,11 @@ patch_zone:
 delete_point:
     path: /zones/{id}/points/{id2}
     defaults: {_controller: AppBundle:Point:removePoint}
+    
+delete_active_periodes:
+    path: /zones/{id}/activePeriodes/{id2}
+    defaults: {_controller: AppBundle:ActivePeriode:deleteActivePeriode}
+
+patch_active_periodes:
+    path: /zones/{id}/activePeriodes/{id2}
+    defaults: {_controller: AppBundle:ActivePeriode:patchActivePeriode}

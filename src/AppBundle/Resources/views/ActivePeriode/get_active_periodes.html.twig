@@ -5,8 +5,23 @@
 {% block body %}
 <h1>Welcome to the ActivePeriode:getActivePeriodes page</h1>
 
+{% if message is defined %}
+    {{ message }}
+{% endif %}
+
+{% if activePeriodes is defined %}
 {% for activePeriode in activePeriodes %}
     
   {{ activePeriode.nom }} | {{ activePeriode.dateDebut|date() }} | {{ activePeriode.dateFin|date() }} <br/>
+  
+{{ form_start(tabForm[loop.index-1]) }}
+   {{ form_rest(tabForm[loop.index-1]) }}
+{{ form_end(tabForm[loop.index-1]) }}
+
+{{ form_start(tabForm2[loop.index-1]) }}
+   {{ form_rest(tabForm2[loop.index-1]) }}
+{{ form_end(tabForm2[loop.index-1]) }}
+<hr/>
 {% endfor %}
+{% endif %}
 {% endblock %}

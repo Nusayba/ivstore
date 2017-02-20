@@ -5,9 +5,11 @@
 {% block body %}
 <h1>Welcome to the Zone:getZones page</h1>
 {{ form(form) }}
+<hr/>
     {% if message is defined %}
         {{ message }}
     {% endif %}
+    {% set xy=0 %}
     {% for zone in lastHistoriquezones %}
         {% for z in zone %}
 
@@ -18,10 +20,11 @@
             | {{ z.action }}
             | {{ z.utilisateur }}
             <br/>
-            {% set xy=0 %}
+            
             | {% for point in z.points %}
             
                 position={{ point.position }}, x={{ point.x }}, y={{point.y }} |
+                
                 {% if tabForm2 is defined %}
                     {{ form_start(tabForm2[xy]) }}
                     {{ form_rest(tabForm2[xy]) }}
@@ -63,6 +66,7 @@
                         {{ form_end(tabForm7[loop.parent.loop.index-1]) }}
             {% endif %}
             <br/>
+            <hr/>
         {% endfor %}
     {% endfor %}
 {% endblock %}

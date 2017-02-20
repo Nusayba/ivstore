@@ -65,30 +65,33 @@ class ZoneController extends Controller
             
 
             //création du tableau de formulaire suppression et modification de point
-            foreach ($attributZones as $key => $zone) {
-                foreach ($zone as $key2 => $value) {
-                    $id=$value->getZone()->getId();
-                    $points=$value->getPoints();
-                    if($points[0]){
-                       foreach ($points as $key => $point) {
+            foreach ($attributZones as $key => $tabZone) {
+                    $id=$zones[$key]->getId();
+                    $points= NULL;
+                    $points=$tabZone[0]->getPoints();
+                    if(! $points== NULL){
+                       foreach ($points as $keyPoint => $point) {
                             $id2=$point->getId();
-                            $tabForm2[$key]=$this->createForm(\AppBundle\Form\RemovePointType::class, $dto2, array('action'=>$id.'/points/'.$id2))
+                            $tabForm2[]=$this->createForm(\AppBundle\Form\RemovePointType::class, $dto2, array('action'=>$id.'/points/'.$id2))
                                                     ->submit($request->request->all())
                                                     ->createView();
-                            $tabForm3[$key]=$this->createForm(\AppBundle\Form\ModifPointType::class, $dto3, array('action'=>$id.'/points/'.$id2))
+                            $tabForm3[]=$this->createForm(\AppBundle\Form\ModifPointType::class, $dto3, array('action'=>$id.'/points/'.$id2))
                                                     ->submit($request->request->all())
                                                     ->createView();
-                        }
-                        
-                    return $this->render('AppBundle:Zone:get_zones.html.twig', array(
-                        "lastHistoriquezones"=>$attributZones, "tabForm"=>$tabForm, "tabForm2"=>$tabForm2,
-                        "tabForm3"=>$tabForm3, "tabForm4"=>$tabForm4, "tabForm5"=>$tabForm5, 
-                        "tabForm6"=>$tabForm6,"tabForm7"=>$tabForm7,'form'=>$form->createView()
-                    ));    
+                        } 
+                       
 
                     }
 
-                }
+                
+            }
+            
+            if(isset($tabForm2)){
+                return $this->render('AppBundle:Zone:get_zones.html.twig', array(
+                        "lastHistoriquezones"=>$attributZones, "tabForm"=>$tabForm, "tabForm2"=>$tabForm2,
+                        "tabForm3"=>$tabForm3, "tabForm4"=>$tabForm4, "tabForm5"=>$tabForm5,
+                        "tabForm6"=>$tabForm6,"tabForm7"=>$tabForm7,'form'=>$form->createView()
+                    ));
             }
             
             return $this->render('AppBundle:Zone:get_zones.html.twig', array(
@@ -123,7 +126,7 @@ class ZoneController extends Controller
                 $tabForm5[$key]=$this->createForm(\AppBundle\Form\RemoveZoneType::class, $dto2, array('action'=>$id))
                                     ->submit($request->request->all())
                                     ->createView();
-                // création du tableau de formulaire d'e suppression de zone'ajout d'une période d'activité
+                // création du tableau de formulaire dajout d'une période d'activité
                     $tabForm6[$key]=$this->createForm(\AppBundle\Form\AddPeriodeType::class, $dto2, array('action'=>$id.'/activePeriodes'))
                                         ->submit($request->request->all())
                                         ->createView();
@@ -134,31 +137,35 @@ class ZoneController extends Controller
             }
 
             //création du tableau de formulaire suppression et modification de point
-            foreach ($attributZones as $key => $zone) {
-                foreach ($zone as $key2 => $value) {
-                    $id=$zones[$key2]->getId();
-                    $points=$value->getPoints();
-                    if($points[0]){
-                       foreach ($points as $key => $point) {
+            foreach ($attributZones as $key => $tabZone) {
+                    $id=$zones[$key]->getId();
+                    $points= NULL;
+                    $points=$tabZone[0]->getPoints();
+                    if(! $points== NULL){
+                       foreach ($points as $keyPoint => $point) {
                             $id2=$point->getId();
-                            $tabForm2[$key]=$this->createForm(\AppBundle\Form\RemovePointType::class, $dto2, array('action'=>$id.'/points/'.$id2))
+                            $tabForm2[]=$this->createForm(\AppBundle\Form\RemovePointType::class, $dto2, array('action'=>$id.'/points/'.$id2))
                                                     ->submit($request->request->all())
                                                     ->createView();
-                            $tabForm3[$key]=$this->createForm(\AppBundle\Form\ModifPointType::class, $dto3, array('action'=>$id.'/points/'.$id2))
+                            $tabForm3[]=$this->createForm(\AppBundle\Form\ModifPointType::class, $dto3, array('action'=>$id.'/points/'.$id2))
                                                     ->submit($request->request->all())
                                                     ->createView();
                         } 
-                    return $this->render('AppBundle:Zone:get_zones.html.twig', array(
-                        "lastHistoriquezones"=>$attributZones, "tabForm"=>$tabForm, "tabForm2"=>$tabForm2,
-                        "tabForm3"=>$tabForm3, "tabForm4"=>$tabForm4, "tabForm5"=>$tabForm5,
-                        "tabForm6"=>$tabForm6,"tabForm7"=>$tabForm7,'form'=>$form->createView()
-                    ));    
+                       
 
                     }
 
-                }
+                
             }
-
+            if(isset($tabForm2)){
+                return $this->render('AppBundle:Zone:get_zones.html.twig', array(
+                        "lastHistoriquezones"=>$attributZones, "tabForm"=>$tabForm, "tabForm2"=>$tabForm2,
+                        "tabForm3"=>$tabForm3, "tabForm4"=>$tabForm4, "tabForm5"=>$tabForm5,
+                        "tabForm6"=>$tabForm6,"tabForm7"=>$tabForm7,'form'=>$form->createView()
+                    ));
+            }
+             
+            
         return $this->render('AppBundle:Zone:get_zones.html.twig', array(
             "lastHistoriquezones"=>$attributZones, "tabForm"=>$tabForm, "tabForm4"=>$tabForm4,
             "tabForm5"=>$tabForm5,"tabForm6"=>$tabForm6,"tabForm7"=>$tabForm7, 'form'=>$form->createView()
